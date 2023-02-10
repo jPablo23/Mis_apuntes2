@@ -6,12 +6,15 @@ if(isset($_POST['import_data'])){
     if(!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'],$file_mimes)){
         if(is_uploaded_file($_FILES['file']['tmp_name'])){   
             $csv_file = fopen($_FILES['file']['tmp_name'], 'r');           
-            fgetcsv($csv_file);            
+            fgetcsv($csv_file);
+            $myfile = fopen("script.txt", "w");             
             // get data records from csv file
             while(($emp_record = fgetcsv($csv_file)) !== FALSE){
-                $mysql_insert = "INSERT INTO inventario (codigo,nombre,precio_compra,precio_venta,utilidad,existencia,stock,familia,idCategoria,idLinea,idMarca)VALUES('".$emp_record[0]."', '".$emp_record[1]."', '".$emp_record[2]."','".$emp_record[3]."', '".$emp_record[4]."','".$emp_record[5]."', '".$emp_record[6]."','".$emp_record[7]."', '".$emp_record[8]."', '".$emp_record[9]."', '".$emp_record[10]."')";
+                $mysql_insert = "INSERT INTO inventario (codigo,nombre,precio_compra,precio_venta,utilidad,existencia,stock,familia,idCategoria,idLinea,idMarca)VALUES('".$emp_record[0]."', '".$emp_record[1]."', '".$emp_record[2]."','".$emp_record[3]."', '".$emp_record[4]."','".$emp_record[5]."', '".$emp_record[6]."','".$emp_record[7]."', '".$emp_record[8]."', '".$emp_record[9]."', '".$emp_record[10]."'),";
 				//$import_status = $mysql_insert;
-                mysqli_query($conn, $mysql_insert) or die("database error:". mysqli_error($conn));
+                $bytes = fwrite($myfile, $mysql_insert."\n"); 
+ 
+                //mysqli_query($conn, $mysql_insert) or die("database error:". mysqli_error($conn));
                 // Check if employee already exists with same email
                 /*$sql_query = "SELECT * FROM inventario WHERE codigo = '".$emp_record[1]."'";
                 $resultset = mysqli_query($conn, $sql_query) or die("database error:". mysqli_error($conn));
@@ -25,6 +28,7 @@ if(isset($_POST['import_data'])){
                 }*/
             }            
             fclose($csv_file);
+            fclose($myfile);
             $import_status = '?import_status=success';
         } else {
             $import_status = '?import_status=error';
