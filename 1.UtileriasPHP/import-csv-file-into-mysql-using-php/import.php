@@ -10,7 +10,8 @@ if(isset($_POST['import_data'])){
             $myfile = fopen("script.txt", "w");             
             // get data records from csv file
             while(($emp_record = fgetcsv($csv_file)) !== FALSE){
-                $mysql_insert = "INSERT INTO inventario (codigo,nombre,precio_compra,precio_venta,utilidad,existencia,stock,familia,idCategoria,idLinea,idMarca)VALUES('".$emp_record[0]."', '".$emp_record[1]."', '".$emp_record[2]."','".$emp_record[3]."', '".$emp_record[4]."','".$emp_record[5]."', '".$emp_record[6]."','".$emp_record[7]."', '".$emp_record[8]."', '".$emp_record[9]."', '".$emp_record[10]."'),";
+                $mysql_insert = "INSERT INTO inventario (codigo,nombre,precio_compra,precio_venta,utilidad,stock,familia,idLinea,idMarca,idCategoria)VALUES('".$emp_record[0]."', '".$emp_record[1]."', '".$emp_record[2]."','".$emp_record[3]."', '".$emp_record[4]."','".$emp_record[5]."', '".$emp_record[6]."','".$emp_record[7]."', '".$emp_record[8]."',  '".$emp_record[9]."');";
+                //$mysql_insert = "INSERT INTO inventario (codigo,nombre,precio_compra,precio_venta,utilidad,existencia,stock,familia,idCategoria,idLinea,idMarca)VALUES('".$emp_record[0]."', '".$emp_record[1]."', '".$emp_record[2]."','".$emp_record[3]."', '".$emp_record[4]."','".$emp_record[5]."', '".$emp_record[6]."','".$emp_record[7]."', '".$emp_record[8]."', '".$emp_record[9]."', '".$emp_record[10]."'),";
 				//$import_status = $mysql_insert;
                 $bytes = fwrite($myfile, $mysql_insert."\n"); 
  
